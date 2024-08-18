@@ -12,18 +12,19 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Contact = () => {
-
   const toast = useToast();
-  
+
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
     email: "",
     review: "",
   });
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const formChange = (e) => {
     const { name, value } = e.target;
@@ -46,9 +47,9 @@ const Contact = () => {
     setTimeout(() => {
       setLoading(true);
       toast({
-        title: 'Review Sent.',
+        title: "Review Sent.",
         description: "Thank you for your reviews. We will act on this!",
-        status: 'success',
+        status: "success",
         duration: 2000,
         position: "top-right",
         isClosable: true,
@@ -62,7 +63,13 @@ const Contact = () => {
   return (
     <Box bg="primary" minH="100vh" w={"100vw"}>
       <Flex justifyContent={"space-between"} bg={"quaternary"} p={5}>
-        <Heading textAlign="center" color="primary" fontSize={"35px"}>
+        <Heading
+          textAlign="center"
+          color="primary"
+          cursor={"pointer"}
+          fontSize={"35px"}
+          onClick={() => navigate("/")}
+        >
           Local Mechanics
         </Heading>
         <Link href="/contact-us">
