@@ -1,7 +1,9 @@
-import React, { useState } from "react";
-import { Box, Button, Flex, Grid, Heading, Link } from "@chakra-ui/react";
+import React, { useEffect, useState } from "react";
+import { Box, Button, Flex, Grid, Heading, Link, useToast } from "@chakra-ui/react";
 import MechanicCard from "./MechanicCard";
 import MechanicModal from "./MechanicModal";
+import Login from "./Login";
+import { useNavigate } from "react-router-dom";
 
 const mechanics = [
   {
@@ -45,8 +47,46 @@ const mechanics = [
 
 function App() {
   const [selectedMechanic, setSelectedMechanic] = useState(null);
+  const navigate = useNavigate();
+  const toast = useToast();
 
-  return (
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [auth, setAuth] = useState(false);
+
+  console.log("auth", auth);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    
+    console.log("email:", email);
+    console.log("Password:", password);
+    
+    if (email === "anjola@gmail.com") {
+      setAuth(true);
+      navigate('/')
+    } else {
+      toast({
+        title: 'Unable to log in',
+        description: "Your username/password is incorrect. Please try again later!",
+        status: 'error',
+        position: "top-right",
+        duration: 9000,
+        isClosable: true,
+      })
+    }
+  };
+
+
+  return !auth ? (
+    <Login
+      handleSubmit={handleSubmit}
+      email={email}
+      password={password}
+      setEmail={setEmail}
+      setPassword={setPassword}
+    />
+  ) : (
     <Box bg="primary" minH="100vh" w={"100vw"}>
       <Flex justifyContent={"space-between"} bg={"quaternary"} p={5}>
         <Heading
@@ -58,9 +98,16 @@ function App() {
         >
           Local Mechanics
         </Heading>
-        <Link href="/contact-us">
-          <Button>Contact Us</Button>
-        </Link>
+        <Flex gap={'20px'}>
+          <Link href="/contact-us">
+            <Button>Contact Us</Button>
+          </Link>
+            <Button onClick={() => {
+              setAuth(false);
+              navigate('/');
+              // window.location.reload();
+            }}>Sign out</Button>
+        </Flex>
       </Flex>
       <Box p={5}>
         <Grid

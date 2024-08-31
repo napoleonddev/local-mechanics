@@ -9,6 +9,7 @@ import { ChakraProvider, extendTheme } from '@chakra-ui/react'
 
 const App = React.lazy(() => import('./App.jsx'));
 const Contact = React.lazy(() => import('./Contact.jsx'));
+const Login = React.lazy(() => import('./Login.jsx'));
 
 const theme = extendTheme({
   colors: {
@@ -27,6 +28,7 @@ createRoot(document.getElementById('root')).render(
           <Routes>
             <Route path="/" element={<App />} />
             <Route path="/contact-us" element={<Contact />} />
+            <Route path="/login" element={<Login />} />
             {/* You can add more routes here if needed */}
           </Routes>
         </Suspense>
